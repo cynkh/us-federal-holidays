@@ -1,0 +1,17 @@
+@using System
+@using dotnet_webapp.Entities
+@using dotnet_webapp.Models
+@model HolidaysIndexViewModel
+
+@{
+    var year = Model.Year;
+    var holidays = Model.Holidays as IEnumerable<Holiday>;
+}
+
+<h2>@year Holidays</h2>
+<ul>
+@foreach (var h in holidays)
+{
+    <li>@h.Name &dash; @h.Date.ToOrdinalString()</li>
+}
+</ul>

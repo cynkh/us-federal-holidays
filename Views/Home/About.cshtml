@@ -1,0 +1,11 @@
+﻿@using System
+
+@{
+    ViewData["Title"] = "About";
+    var currentYear = DateTime.UtcNow.Year;
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Navigate to the @Html.ActionLink("Holidays", "", "Holidays") link via the menu to see the holiday list for the current year (@currentYear).</p>
+<p>Add a year to the end of the URL to see the holiday list for a specific year (e.g., @Html.ActionLink($"/Holidays/{(currentYear + 1)}", $"{currentYear + 1}", "Holidays")).</p>
