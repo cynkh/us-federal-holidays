@@ -8,10 +8,13 @@
     var holidays = Model.Holidays as IEnumerable<Holiday>;
 }
 
-<h2>@year Holidays</h2>
-<ul>
-@foreach (var h in holidays)
+@if (Model.Error == null || Model.Error.Trim().Length < 1)
 {
-    <li>@h.Name &dash; @h.Date.ToOrdinalString()</li>
+    <h2>@year Holidays</h2>
+    <ul>
+    @foreach (var h in holidays)
+    {
+        <li>@h.Name &dash; @h.Date.ToOrdinalString()</li>
+    }
+    </ul>
 }
-</ul>
