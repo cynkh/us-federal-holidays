@@ -4,33 +4,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using dotnet_webapp.Abstract;
+using dotnet_webapp.Entities;
 using dotnet_webapp.Models;
 using dotnet_webapp.Services;
 
-// TODO ControllerBase and ViewModelBase
-// TODO Put currently hard-coded app name value into a view model/controller
 namespace dotnet_webapp.Controllers
 {
-    public class HolidaysController : Controller
+    public class HolidaysController : ControllerBase
     {
         public HolidaysController()
         {
             _holidaysService = new HolidaysService();
         }
-        private HolidaysService _holidaysService;
+        private IHolidaysService _holidaysService;
         
         [Route("Holidays/{year?}")]
         public IActionResult Index(int? year)
         {
+            IEnumerable<Holiday> holidays;
+            var model = new HolidaysIndexViewModel();
+
             if (!year.HasValue)
             {
                 year = DateTime.UtcNow.Year;
             }
-            var model = new HolidaysIndexViewModel
+
+            try
             {
-                Year = year.Value,
-                Holidays = _holidaysService.GetHolidaysByYear(year.Value),
-            };
+                holidays = _holidaysService.GetHolidaysByYear(year.Value);
+            }
+            catch (ArgumentException argEx)
+            {
+                model.Error = argEx.Message;
+                holidays = new List<Holiday>();
+            }
+
+            model.Year = year.Value;
+            model.Holidays = holidays;
 
             return View(model);
         }
