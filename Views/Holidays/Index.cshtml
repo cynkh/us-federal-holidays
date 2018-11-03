@@ -4,6 +4,7 @@
 @model HolidaysIndexViewModel
 
 @{
+    ViewData["Title"] = "Holidays";
     var year = Model.Year;
     var holidays = Model.Holidays as IEnumerable<Holiday>;
 }
