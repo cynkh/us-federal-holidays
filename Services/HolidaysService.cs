@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using dotnet_webapp.Abstract;
 using dotnet_webapp.Entities;
 
 namespace dotnet_webapp.Services
 {
-    public class HolidaysService
+    public class HolidaysService : IHolidaysService
     {
         /*
             2018 USPS holidays
@@ -22,8 +23,21 @@ namespace dotnet_webapp.Services
             Thursday, November 22 Thanksgiving Day                  // nth weekday, 4th Thu of Nov
             Tuesday, December 25 Christmas Day                      // calculated
          */
+         /// <summary>
+         /// Returns a list of entity type Holiday for the year requested
+         /// </summary>
+         /// <param name="year">The year for which the holiday list is being requested</param>
+         /// <returns>IEnumerable of entity type Holiday for the specified year</returns>
         public IEnumerable<Holiday> GetHolidaysByYear(int year)
         {
+            if (year < DateTime.MinValue.Year)
+            {
+                var minYear = DateTime.MinValue.Year;
+                var maxYear = DateTime.MaxValue.Year;
+
+                throw new ArgumentException($"GetHolidaysByYear expects a valid value between {minYear} and {maxYear}.");
+            }
+
             var constantHolidays = getConstantHolidays(year);
             var nthWeekdayHolidays = getNthWeekdayHolidays(year);
             var holidaysByYear = constantHolidays.Concat(nthWeekdayHolidays);
