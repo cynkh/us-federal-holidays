@@ -13,7 +13,7 @@ namespace dotnet_webapp.Controllers
 {
     public class HolidaysController : ControllerBase
     {
-        private IHolidaysService _holidaysService;
+        private readonly IHolidaysService _holidaysService;
         public HolidaysController(IHolidaysService holidaysService)
         {
             _holidaysService = holidaysService;
