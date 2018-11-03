@@ -13,11 +13,11 @@ namespace dotnet_webapp.Controllers
 {
     public class HolidaysController : ControllerBase
     {
-        public HolidaysController()
-        {
-            _holidaysService = new HolidaysService();
-        }
         private IHolidaysService _holidaysService;
+        public HolidaysController(IHolidaysService holidaysService)
+        {
+            _holidaysService = holidaysService;
+        }        
         
         [Route("Holidays/{year?}")]
         public IActionResult Index(int? year)
